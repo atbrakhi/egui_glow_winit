@@ -47,13 +47,18 @@ impl GlutinWindowContext {
                     },
                 )
                 .expect("failed to create gl_config");
+
         let gl_display = gl_config.display();
+
         log::debug!("found gl_config: {:?}", &gl_config);
 
         let raw_window_handle = window.as_ref().map(|w| w.raw_window_handle());
+
         log::debug!("raw window handle: {:?}", raw_window_handle);
+
         let context_attributes =
             glutin::context::ContextAttributesBuilder::new().build(raw_window_handle);
+
         // by default, glutin will try to create a core opengl context. but, if it is not available, try to create a gl-es context using this fallback attributes
         let fallback_context_attributes = glutin::context::ContextAttributesBuilder::new()
             .with_context_api(glutin::context::ContextApi::Gles(None))
@@ -133,6 +138,7 @@ impl GlutinWindowContext {
     }
 }
 
+
 fn main() {
     let clear_color = [0.1, 0.1, 0.1];
 
@@ -143,9 +149,10 @@ fn main() {
 
     let mut egui_glow = egui_glow::EguiGlow::new(&event_loop, gl.clone(), None);
 
+    let mut input_text: String = Default::default();;
     event_loop.run(move |event, _, control_flow| {
         let mut redraw = || {
-            let mut quit = false;
+            let quit = false;
 
             let repaint_after = egui_glow.run(gl_window.window(), |egui_ctx| {
                 TopBottomPanel::top("toolbar").show(egui_ctx, |ui| {
@@ -159,7 +166,7 @@ fn main() {
                             }
                             ui.add_sized(
                                 ui.available_size(),
-                                egui::TextEdit::singleline(&mut "Hello".to_owned()),
+                                egui::TextEdit::singleline(&mut input_text),
                             );
                         },
                     );
