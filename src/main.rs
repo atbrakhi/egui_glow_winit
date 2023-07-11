@@ -154,6 +154,8 @@ fn main() {
         let mut redraw = || {
             let quit = false;
 
+            // TODO: Investigate why text in the location bar is not showing up when
+            // tying input
             let repaint_after = egui_glow.run(gl_window.window(), |egui_ctx| {
                 TopBottomPanel::top("toolbar").show(egui_ctx, |ui| {
                     ui.allocate_ui_with_layout(
